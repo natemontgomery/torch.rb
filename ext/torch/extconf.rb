@@ -19,9 +19,10 @@ else
 end
 
 paths = [
-  "/usr/local",
-  "/opt/homebrew",
-  "/home/linuxbrew/.linuxbrew"
+  "/usr/local", # Common Linux install target (ie Debian dervied distros)
+  "/opt", # Another Common Linux install target (ie Arch derived distros)
+  "/opt/homebrew", # Default Homebrew install target
+  "/home/linuxbrew/.linuxbrew" # Homebrew on Linux default install target
 ]
 
 inc, lib = dir_config("torch")
@@ -60,7 +61,7 @@ $LDFLAGS += ":#{cuda_lib}/stubs:#{cuda_lib}" if with_cuda
 # https://github.com/pytorch/pytorch/blob/v1.5.0/torch/utils/cpp_extension.py#L1232-L1238
 $LDFLAGS += " -lc10 -ltorch_cpu -ltorch"
 if with_cuda
-  $LDFLAGS += " -lcuda -lnvrtc -lnvToolsExt -lcudart -lc10_cuda -ltorch_cuda -lcufft -lcurand -lcublas -lcudnn"
+  $LDFLAGS += " -lcuda -lnvrtc -lcudart -lc10_cuda -ltorch_cuda -lcufft -lcurand -lcublas -lcudnn"
   # TODO figure out why this is needed
   $LDFLAGS += " -Wl,--no-as-needed,#{lib}/libtorch.so"
 end
